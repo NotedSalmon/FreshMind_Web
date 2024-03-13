@@ -1,0 +1,29 @@
+/* Add your styles here */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+#login-form {
+  text-align: center;
+  margin-top: 50px;
+}
+
+#data-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+#data-list {
+  list-style: none;
+  padding: 0;
+}
