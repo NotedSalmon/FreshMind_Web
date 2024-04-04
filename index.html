@@ -4,27 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firebase Authentication and Firestore</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Firebase Authentication and Firestore Example</h1>
-  
+
   <div id="login-form">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
+    <label for="email"></label><input type="email" id="email" placeholder="Email">
+    <label for="password"></label><input type="password" id="password" placeholder="Password">
     <button onclick="login()">Login</button>
+    <p id="error-message" style="color: red;"></p> <!-- Error message element -->
   </div>
-  
+
+
   <div id="data-container" style="display: none;">
     <h2>Welcome, <span id="user-email"></span>!</h2>
     <h3>Your Data:</h3>
-    <ul id="data-list"></ul>
+    <table id="data-table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Feedback</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody id="data-list"></tbody>
+    </table>
     <button onclick="logout()">Logout</button>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
