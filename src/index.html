@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Authentication and Firestore</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./forms.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <h1>FreshMind Feedback Viewer</h1>
+
+  <div id="login-error-msg-holder">
+    <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+  </div>
+
+  <form id="login-form">
+    <input type="text" name="email" id="email-field" class="login-form-field" placeholder="Email">
+    <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+    <input type="submit" value="Login" id="login-form-submit">
+  </form>
+
+  <div id="data-container" style="display: none;">
+    <h2>Welcome, Admin!</h2>
+    <h3>Your Data:</h3>
+    <table id="data-table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Feedback</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody id="data-list"></tbody>
+    </table>
+    <input type="submit" value="Logout" id="logout-button">
+  </div>
+
+</body>
+</html>
