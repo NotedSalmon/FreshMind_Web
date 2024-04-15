@@ -3,10 +3,12 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #35235D;
 }
 
 h1 {
   text-align: center;
+  color: #EFDA92;
 }
 
 #login-error-msg-holder {
@@ -59,9 +61,9 @@ h1 {
   padding: 7px;
   border: none;
   border-radius: 5px;
-  color: white;
+  color: black;
   font-weight: bold;
-  background-color: #3a3a3a;
+  background-color: #9698BD;
   cursor: pointer;
   outline: none;
 }
@@ -69,10 +71,19 @@ h1 {
 #data-container {
   text-align: center;
   margin-top: 50px;
+  color: #EFDA92;
 }
 
 #logout-button {
-  margin-top: 10px;
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
+  background-color: #9698BD;
+  cursor: pointer;
+  outline: none;
 }
 
 #data-list {
@@ -84,19 +95,26 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-}
 
-#data-table th,
-#data-table td {
-  padding: 8px;
-  border: 1px solid #ddd;
 }
 
 #data-table th {
-  background-color: #f2f2f2;
+  padding: 8px;
+  border: 1px solid #000000;
+  color: #000000; /* Change table heading color to black */
 }
 
-#data-list tr:nth-child(even) {
-  background-color: #f2f2f2;
+#data-table th:first-child {
+  color: #f3e3fa; /* Change color of first table heading to match the other cells */
+}
+
+#data-table td {
+  padding: 8px;
+  border: 1px solid #000000;
+  color: #f3e3fa; /* Change table data text color to match the other cells */
+}
+
+#data-table th {
+  background-color: #EFDA92;
 }
 

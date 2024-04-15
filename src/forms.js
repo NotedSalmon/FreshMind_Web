@@ -1,6 +1,18 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js';
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js';
+import { initializeApp
+} from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js';
+
+import { getAuth,
+    signInWithEmailAndPassword,
+    signOut
+} from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js';
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    deleteDoc,
+    doc, updateDoc
+} from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js';
 
 const firebaseConfig = ({
     apiKey: "AIzaSyB62W0YNT2F-b4sL35uql0Y3WbFAeIMb_c",
@@ -39,6 +51,7 @@ loginButton.addEventListener("click", (e) => {
             dataContainer.style.display = "block";
             fetchData();
             clearFields();
+            loginErrorMsg.hidden
         })
         .catch((error) => {
             loginErrorMsg.style.opacity = 1;
@@ -48,23 +61,83 @@ loginButton.addEventListener("click", (e) => {
         });
 });
 
+function createRow(userData, docId) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${userData.username}</td>
+        <td>${userData.feedback}</td>
+        <td>${userData.date}</td>
+        <td><input type="checkbox" class="complete-checkbox" data-doc-id="${docId}" ${userData.completed ? 'checked' : ''}></td>
+        <td><button class="delete-button" data-doc-id="${docId}">Delete</button></td>
+    `;
+    return row;
+}
+
+function handleTaskCompletionChange(event) {
+    const checkbox = event.target;
+    const docId = checkbox.getAttribute('data-doc-id');
+    const completed = checkbox.checked; // Get the checked state of the checkbox
+    updateTaskCompletionStatus(docId, completed);
+}
+
+function addCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('.complete-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', handleTaskCompletionChange);
+    });
+}
+
+function updateTaskCompletionStatus(docId, completed) {
+    const taskRef = doc(db, 'feedback', docId);
+    updateDoc(taskRef, {
+        completed: completed // Update the completed field based on checkbox state
+    })
+        .then(() => {
+            console.log('Task completion status updated in Firestore');
+        })
+        .catch((error) => {
+            console.error('Error updating task completion status:', error);
+        });
+}
+
+// Function to add event listeners to all delete buttons
+function addDeleteButtonListeners() {
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const docId = button.getAttribute('data-doc-id');
+            deleteItem(docId);
+        });
+    });
+}
+
+// Function to delete an item from the table and Firestore
+async function deleteItem(docId) {
+    try {
+        await deleteDoc(doc(db, 'feedback', docId));
+        const rowToDelete = document.querySelector(`[data-doc-id="${docId}"]`).closest('tr');
+        rowToDelete.remove();
+    } catch (error) {
+        console.error('Error deleting document: ', error);
+    }
+}
+
 async function fetchData() {
     const dataList = document.getElementById('data-list');
     const querySnapshot = await getDocs(collection(db, 'feedback'));
     dataList.innerHTML = '';
     querySnapshot.forEach((doc) => {
         const userData = doc.data();
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${userData.username}</td><td>${userData.feedback}</td><td>${userData.date}</td>`;
+        const row = createRow(userData, doc.id);
         dataList.appendChild(row);
-    })
+    });
+    addDeleteButtonListeners(); // Add event listeners after fetching data
+    addCheckboxListeners(); // Add event listeners for task completion
 }
 
 logoutButton.addEventListener("click", (e) => {
     e.preventDefault()
     signOut(auth).then(() => {
-        // Sign-out successful.
-        document.getElementById('login-form').style.display = 'block';
         document.getElementById('data-container').style.display = 'none';
         clearFields();
     }).catch((error) => {
